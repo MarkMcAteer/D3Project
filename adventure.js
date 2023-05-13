@@ -9,14 +9,25 @@ class AdventureScene extends Phaser.Scene {
         this.name = name;
     }
 
+    preload() {
+        this.load.path = './assets/';
+        this.load.image('kelp1', 'kelp1.png');
+        this.load.image('kelp2', 'kelp2.png');
+        this.load.image('cave', 'cave.png');
+        this.load.image('KelpForest', 'KelpForest.png');
+        this.load.image('sand', 'sand.png');
+        this.load.image('sharkeye', 'sharkeye.png');
+        this.load.image('bite', 'bite.png');
+        this.load.image('diamond', 'diamond.png');
+    }
+
     create() {
         this.transitionDuration = 1000;
-
         this.w = this.game.config.width;
         this.h = this.game.config.height;
         this.s = this.game.config.width * 0.01;
 
-        this.cameras.main.setBackgroundColor('#444');
+        this.cameras.main.setBackgroundColor('0x2f5ca3');
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
 
         this.add.rectangle(this.w * 0.75, 0, this.w * 0.25, this.h).setOrigin(0, 0).setFillStyle(0);
