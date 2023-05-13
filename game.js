@@ -50,14 +50,22 @@ class DeepSea extends AdventureScene {
                 });
             });
 
-        let kelp = this.add.text(this.w * 0.475, this.w * 0.35, "Kelp Forest")
+        let disguise = this.add.text(this.w * 0.475, this.w * 0.35, "Kelp Forest")
             .setFontSize(this.s * 2)
             .setInteractive()
             .on('pointerover', () => {
                 this.showMessage("Kelp! It could be useful.")
             })
             .on('pointerdown', () => {
-                this.gotoScene('KelpForest');
+                this.showMessage("Diguise attained.");
+                this.gainItem('disguise');
+                this.tweens.add({
+                    targets: disguise,
+                    y: `-=${2 * this.s}`,
+                    alpha: { from: 1, to: 0 },
+                    duration: 500,
+                    onComplete: () => disguise.destroy()
+                });
             })
 
         let cave = this.add.text(this.w * 0.2, this.w * 0.075, "Cave")
@@ -90,17 +98,21 @@ class Cave extends AdventureScene {
             .on('pointerdown', () => {
                 this.gotoScene('DeepSea');
             });
-        this.add.text(this.w * 0.4, this.w * 0.4, "enter")
+        let enter = this.add.text(this.w * 0.4, this.w * 0.4, "enter")
             .setFontSize(this.s * 2)
             .setInteractive()
             .on('pointerdown', () => {
-                this.gotoScene('Jewel');
+                if (this.hasItem("disguise")) {
+                    this.gotoScene('Jewel');
+                } else {
+                    this.gotoScene('Shark');
+                }
             });
     }
 }
 
 
-
+/*
 class KelpForest extends AdventureScene {
     constructor() {
         super("KelpForest", "A forest of kelp, maybe it could be useful.");
@@ -118,14 +130,33 @@ class KelpForest extends AdventureScene {
             'KelpForest',//imagename
         )
         this.imageObject.setScale(3) //resize
-        this.add.text(this.w * 0.4, this.w * 0.35, "kelp")
+        let disguise = this.add.text(this.w * 0.4, this.w * 0.35, "kelp")
+            .setFontSize(this.s * 2)
+            .setInteractive()
+            .on('pointerover', () => {
+                this.showMessage("Could be useful.")
+            })
+            .on('pointerdown', () => {
+                this.showMessage("Disguise attained.");
+                this.gainItem('disguise');
+                this.tweens.add({
+                    targets: disguise,
+                    y: `-=${2 * this.s}`,
+                    alpha: { from: 1, to: 0 },
+                    duration: 500,
+                    onComplete: () => diguise.destroy()
+                });
+            })
+            this.add.text(this.w * 0.6, this.w * 0.05, "return")
             .setFontSize(this.s * 2)
             .setInteractive()
             .on('pointerdown', () => {
                 this.gotoScene('DeepSea');
             });
+            
     }
 }
+*/
 
 class Shark extends AdventureScene {
     constructor() {
@@ -201,7 +232,7 @@ const game = new Phaser.Game({
         height: 1080,
     },
     backgroundColor: "0x14b9fa",
-    scene: [Intro, DeepSea, Cave, KelpForest, Outro, Shark, Jewel],
+    scene: [Intro, DeepSea, Cave, Outro, Shark, Jewel],
     title: "Adventure Game",
 });
 
